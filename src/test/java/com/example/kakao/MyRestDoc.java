@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 
 @ExtendWith({ SpringExtension.class, RestDocumentationExtension.class })
 public class MyRestDoc {
-    protected MockMvc mockMvc;
+    protected MockMvc mvc;
     protected RestDocumentationResultHandler document;
 
     @BeforeEach
@@ -27,7 +27,7 @@ public class MyRestDoc {
                 Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                 Preprocessors.preprocessResponse(Preprocessors.prettyPrint()));
 
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+        mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .addFilter(new CharacterEncodingFilter(StandardCharsets.UTF_8.name(), true))
                 .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation))
                 // .apply(SecurityMockMvcConfigurers.springSecurity())
