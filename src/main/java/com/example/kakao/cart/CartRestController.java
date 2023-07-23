@@ -42,10 +42,17 @@ public class CartRestController {
     }
 
     // (기능7) 장바구니 조회 - (주문화면) GET
-// /carts
+    // /carts
     @GetMapping("/carts")
     public ResponseEntity<?> findAll(@AuthenticationPrincipal CustomUserDetails userDetails) {
         CartResponse.FindAllDTO responseDTO = cartListService.findAll(userDetails.getUser());
+        ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
+        return ResponseEntity.ok(apiResult);
+    }
+
+    @GetMapping("/carts/v2")
+    public ResponseEntity<?> findAllv2(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        CartResponse.FindAllDTOv2 responseDTO = cartListService.findAllv2(userDetails.getUser());
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
         return ResponseEntity.ok(apiResult);
     }
