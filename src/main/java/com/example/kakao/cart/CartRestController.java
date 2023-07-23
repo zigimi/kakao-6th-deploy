@@ -31,8 +31,8 @@ public class CartRestController {
      * }
      * ]
      */
-// (기능6) 장바구니 담기 POST
-// /carts/add
+    // (기능6) 장바구니 담기 POST
+    // /carts/add
     @PostMapping("/carts/add")
     public ResponseEntity<?> addCartList(@RequestBody @Valid List<CartRequest.SaveDTO> requestDTOs, Errors errors, @AuthenticationPrincipal CustomUserDetails userDetails) {
         cartListService.addCartList(requestDTOs, userDetails.getUser());
