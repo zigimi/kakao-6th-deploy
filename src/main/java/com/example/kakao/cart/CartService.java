@@ -3,6 +3,7 @@ package com.example.kakao.cart;
 import com.example.kakao._core.errors.exception.Exception400;
 import com.example.kakao._core.errors.exception.Exception404;
 import com.example.kakao._core.errors.exception.Exception500;
+import com.example.kakao.product.Product;
 import com.example.kakao.product.option.Option;
 import com.example.kakao.product.option.OptionJPARepository;
 import com.example.kakao.user.User;
@@ -41,9 +42,11 @@ public class CartService {
             Cart cart = Cart.builder().user(sessionUser).option(optionPS).quantity(quantity).price(price).build();
             cartJPARepository.save(cart);
         }
-
-
     }
 
-
+public CartResponse.FindAllDTO findAll(User user) {
+    List<Cart> cartList = cartJPARepository.findByUserIdOrderByOptionIdAsc(user.getId());
+    // Cart에 담긴 옵션이 3개이면, 2개는 바나나 상품, 1개는 딸기 상품이면 Product는 2개인 것이다.
+    return new CartResponse.FindAllDTO(cartList);
+}
 }

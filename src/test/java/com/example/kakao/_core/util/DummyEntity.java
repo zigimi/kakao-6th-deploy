@@ -13,8 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DummyEntity {
-    protected User newUser(String username){
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    protected User newUser(String username, PasswordEncoder passwordEncoder){
         return User.builder()
                 .email(username+"@nate.com")
                 .password(passwordEncoder.encode("meta1234!"))
