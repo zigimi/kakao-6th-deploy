@@ -44,6 +44,30 @@ public class ProductRestControllerTest extends MyRestDoc {
     }
 
     @Test
+    public void findAll_param_test() throws Exception {
+        // given teardown.sql
+        int page = 0;
+        // when
+        ResultActions resultActions = mvc.perform(
+                get("/products")
+                .param("page", String.valueOf(page))
+        );
+
+        // console
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : "+responseBody);
+
+        // verify
+        resultActions.andExpect(jsonPath("$.success").value("true"));
+        resultActions.andExpect(jsonPath("$.response[0].id").value(1));
+        resultActions.andExpect(jsonPath("$.response[0].productName").value("기본에 슬라이딩 지퍼백 크리스마스/플라워에디션 에디션 외 주방용품 특가전"));
+        resultActions.andExpect(jsonPath("$.response[0].description").value(""));
+        resultActions.andExpect(jsonPath("$.response[0].image").value("/images/1.jpg"));
+        resultActions.andExpect(jsonPath("$.response[0].price").value(1000));
+        resultActions.andDo(MockMvcResultHandlers.print()).andDo(document);
+    }
+
+    @Test
     public void findById_test() throws Exception {
         // given teardown.sql
         int id = 1;
@@ -64,6 +88,26 @@ public class ProductRestControllerTest extends MyRestDoc {
         resultActions.andExpect(jsonPath("$.response.description").value(""));
         resultActions.andExpect(jsonPath("$.response.image").value("/images/1.jpg"));
         resultActions.andExpect(jsonPath("$.response.price").value(1000));
+        resultActions.andDo(MockMvcResultHandlers.print()).andDo(document);
+    }
+
+    @Test
+    public void findById_fail_test() throws Exception {
+        // given teardown.sql
+        int id = 16;
+
+        // when
+        ResultActions resultActions = mvc.perform(
+                get("/products/" + id)
+        );
+
+        // console
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : "+responseBody);
+
+        // verify
+        resultActions.andExpect(jsonPath("$.success").value("false"));
+        resultActions.andExpect(jsonPath("$.error.status").value(404));
         resultActions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 }
